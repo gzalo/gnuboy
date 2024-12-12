@@ -52,7 +52,8 @@ void event_poll()
 	while (read(eventfd,&readevent,sizeof(struct input_event)) == sizeof(struct input_event))
 	{
 		if (readevent.type == EV_KEY) {
-			ev.type = readevent.value==2 ? 1 : 2;
+			if(readevent.value == 2) continue; // REPEAT
+			ev.type = readevent.value==1 ? 1 : 2;
 
             if(readevent.code == 12 || readevent.code == 13 || readevent.code == 14 || readevent.code == 15){ 
 				ev.code = 0x1b0 + (readevent.code-12);
