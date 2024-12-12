@@ -279,6 +279,7 @@ void ev_poll(int wait)
 	(void) wait;
 	kb_poll();
 	joy_poll();
+	event_poll();
 }
 
 

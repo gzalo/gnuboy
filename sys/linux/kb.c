@@ -57,6 +57,7 @@ static void vcacquire(int s)
 
 void kb_init()
 {
+	return;
 	kbfd = open(TTY_DEVICE, O_RDWR);
 	if (!kbfd) die("no controlling terminal\n");
 	fcntl(kbfd, F_SETFL, O_NONBLOCK);
@@ -89,6 +90,7 @@ void kb_init()
 
 void kb_close()
 {
+	return;
 	ioctl(kbfd, VT_SETMODE, &initial_vtm);
 	ioctl(kbfd, KDSKBMODE, initial_kbmode);
 	tcsetattr(kbfd, TCSAFLUSH, &initial_term);
@@ -110,6 +112,7 @@ static void vcswitch(int c)
 
 void kb_poll()
 {
+	return;
 	int i;
 	event_t ev;
 	byte k;

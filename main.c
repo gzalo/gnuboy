@@ -197,6 +197,7 @@ void doevents()
 static void shutdown()
 {
 	joy_close();
+	event_close();
 	vid_close();
 	pcm_close();
 }
@@ -367,6 +368,7 @@ int main(int argc, char *argv[])
 	catch_signals();
 	vid_init();
 	joy_init();
+	event_init();
 	pcm_init();
 	menu_init();
 

@@ -30,6 +30,9 @@ void kb_init();
 void kb_poll();
 void kb_close();
 
+void event_init();
+void event_poll();
+void event_close();
 
 /* FIXME these have different prototype for obsolete ( == M$ ) platforms */
 #include <sys/time.h>
