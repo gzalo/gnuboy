@@ -24,7 +24,7 @@ rcvar_t event_exports[] =
 
 static const int axes[4] =
 {
-	K_JOYUP, K_JOYDOWN, K_JOYLEFT, K_JOYRIGHT,
+	0x1ca, 0x1cb, 0x1cd, 0x1cc,
 };
 
 
@@ -52,10 +52,10 @@ void event_poll()
 	while (read(eventfd,&readevent,sizeof(struct input_event)) == sizeof(struct input_event))
 	{
 		if (readevent.type == EV_KEY) {
-			ev.type = readevent.value==2 ? EV_PRESS : EV_RELEASE;
+			ev.type = readevent.value==2 ? 1 : 2;
 
             if(readevent.code == 12 || readevent.code == 13 || readevent.code == 14 || readevent.code == 15){ 
-				ev.code = K_JOY0 + (readevent.code-12);
+				ev.code = 0x1b0 + (readevent.code-12);
 				ev_postevent(&ev);
 			}
 			if(readevent.code == 16 || readevent.code == 17 || readevent.code == 18 || readevent.code == 19){
