@@ -169,9 +169,9 @@ static void plain_init()
 	fb.cc[0].r = 8 - vi.red.length;
 	fb.cc[1].r = 8 - vi.green.length;
 	fb.cc[2].r = 8 - vi.blue.length;
-	fb.cc[0].l = vi.red.offset;
+	fb.cc[2].l = vi.red.offset;
 	fb.cc[1].l = vi.green.offset;
-	fb.cc[2].l = vi.blue.offset;
+	fb.cc[0].l = vi.blue.offset;
 	
 	maplen = fb.pitch * fb.h;
 }
