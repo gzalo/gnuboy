@@ -55,6 +55,27 @@ void event_poll()
 			if(readevent.value == 2) continue; // REPEAT
 			ev.type = readevent.value==1 ? 1 : 2;
 
+
+            if(readevent.code == 27){  // Enter
+				ev.code = '\r';
+				ev_postevent(&ev);
+			}
+
+            if(readevent.code == 28){  // ESC
+				ev.code = 033;
+				ev_postevent(&ev);
+			}
+
+            if(readevent.code == 20){  // OK/A
+				ev.code = 0x1b1;
+				ev_postevent(&ev);
+			}
+
+			if(readevent.code == 33){  // Home/Start
+				ev.code = 0x1b3;
+				ev_postevent(&ev);
+			}
+
             if(readevent.code == 12 || readevent.code == 13 || readevent.code == 14 || readevent.code == 15){ 
 				ev.code = 0x1b0 + (readevent.code-12);
 				ev_postevent(&ev);
