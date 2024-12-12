@@ -32,14 +32,9 @@ void event_init()
 {
 	if (!useevent) return;
 
-	eventfd = open(joydev, O_RDONLY|O_NONBLOCK);
-	if(eventfd == -1) {
-		free(joydev);
-		joydev = strdup("/dev/input/event0");
-		eventfd = open(joydev, O_RDONLY);
-		int flags = fcntl(eventfd, F_GETFL, 0);
-    	fcntl(eventfd, F_SETFL, flags | O_NONBLOCK);
-	}
+	eventfd = open("/dev/input/event0", O_RDONLY);
+	int flags = fcntl(eventfd, F_GETFL, 0);
+	fcntl(eventfd, F_SETFL, flags | O_NONBLOCK);
 }
 
 void event_close()
@@ -49,22 +44,22 @@ void event_close()
 
 void event_poll()
 {
-	struct input_event ev;
+	struct input_event readevent;
 	event_t ev;
 	
 	if (eventfd < 0) return;
 
-	while (read(eventfd,&ev,sizeof(struct input_event)) == sizeof(struct input_event))
+	while (read(eventfd,&readevent,sizeof(struct input_event)) == sizeof(struct input_event))
 	{
-		if (ev.type == EV_KEY) {
-			ev.type = js.value==2 ? EV_PRESS : EV_RELEASE;
+		if (readevent.type == EV_KEY) {
+			ev.type = readevent.value==2 ? EV_PRESS : EV_RELEASE;
 
-            if(ev.code == 12 || ev.code == 13 || ev.code == 14 || ev.code == 15){ 
-				ev.code = K_JOY0 + (ev.code-12);
+            if(readevent.code == 12 || readevent.code == 13 || readevent.code == 14 || readevent.code == 15){ 
+				ev.code = K_JOY0 + (readevent.code-12);
 				ev_postevent(&ev);
 			}
-			if(ev.code == 16 || ev.code == 17 || ev.code == 18 || ev.code == 19){
-				ev.code = axes[ev.code-16];
+			if(readevent.code == 16 || readevent.code == 17 || readevent.code == 18 || readevent.code == 19){
+				ev.code = axes[readevent.code-16];
 				ev_postevent(&ev);
 			}
 		}
